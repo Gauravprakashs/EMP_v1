@@ -1,10 +1,9 @@
-
 body {
 		margin: 0;
 		min-width: 320px;
 		min-height: 100vh;
 		background-size: 100% 100%;
-		background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+		background-position: 0px 0px,0px 0px,0px 0px,0px 0px;
 		background-image: repeating-linear-gradient(315deg, #00FFFF2E 92%, #073AFF00 100%),
 			repeating-radial-gradient(75% 75% at 238% 218%, #00FFFF12 30%, #073AFF14 39%),
 			radial-gradient(99% 99% at 109% 2%, #00C9FFFF 0%, #00C9FFFF 52%, #00C9FFFF 59%, #00C9FFFF 80%, #00C9FFFF 82%, #073AFF00 100%),
@@ -53,6 +52,28 @@ body {
 .navbar-title {
 	font-weight: bold;
 	font-size: 1.5rem;
+}
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.navbar-link {
+  color: #fff;
+  font-weight: 500;
+  font-size: 1.1rem;
+  text-decoration: none;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+.navbar-link:hover {
+  background: rgba(255,255,255,0.12);
+  color: #e0e7ff;
+}
+.navbar-link.active {
+  background: #fff;
+  color: #2563eb;
 }
 .main-content {
 	max-width: 1200px;
@@ -168,7 +189,7 @@ body {
 	max-width: 500px;
 	margin: 1.5rem auto;
 }
-}
+
 .employee-form-title {
 	font-size: 1.1rem;
 	font-weight: 600;
@@ -247,12 +268,12 @@ a {
 a:hover {
 	color: #535bf2;
 }
-
+/* 
 	margin: 0;
 	min-width: 320px;
 	min-height: 100vh;
 	background: #f3f3f3;
-}
+} */
 
 h1 {
 	font-size: 3.2em;
@@ -294,4 +315,147 @@ button:focus-visible {
 	button {
 		background-color: #f9f9f9;
 	}
+}
+
+/* Dashboard Analytics */
+.dashboard-bg {
+  background: rgba(255,255,255,0.7);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 24px rgba(37,99,235,0.08);
+  animation: dashboardfade 1s;
+}
+
+@keyframes dashboardfade {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dashboard-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.dashboard-card {
+  background: linear-gradient(120deg, #f3f3f3 60%, #dbeafe 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(37,99,235,0.10);
+  padding: 1.5rem 2rem;
+  min-width: 220px;
+  flex: 1 1 220px;
+  max-width: 320px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.dashboard-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(37,99,235,0.18);
+}
+.dashboard-count {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2563eb;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.refined-dashboard {
+  background: rgba(255,255,255,0.85);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(37,99,235,0.10);
+  padding: 2.5rem 2rem 2rem 2rem;
+  margin-bottom: 2rem;
+  animation: dashboardfade 1s;
+}
+
+.refined-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  background: linear-gradient(90deg, #2563eb 60%, #7b00ff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.refined-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: center;
+}
+
+.refined-card {
+  background: linear-gradient(120deg, #f3f3f3 60%, #dbeafe 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(123,0,255,0.08);
+  padding: 2rem 2.5rem;
+  min-width: 240px;
+  flex: 1 1 260px;
+  max-width: 380px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+.refined-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 12px 36px rgba(123,0,255,0.16);
+}
+.refined-count {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #7b00ff;
+  margin: 1.2rem 0 0.5rem 0;
+  letter-spacing: 2px;
+}
+
+.piechart-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+.piechart-svg {
+  width: 180px;
+  height: 180px;
+  filter: drop-shadow(0 2px 12px #7b00ff22);
+  border-radius: 50%;
+  background: #fff;
+}
+.piechart-legend {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+.piechart-legend li {
+  display: flex;
+  align-items: center;
+  font-size: 1.08rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+.piechart-legend-color {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  margin-right: 0.7em;
+  box-shadow: 0 1px 4px #0001;
 }

@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchEmployees, addEmployee, updateEmployee, deleteEmployee } from "../slices/employeeSlice";
@@ -24,39 +21,30 @@ function EmployeeList() {
     emp.name.toLowerCase().includes(filter.toLowerCase())
   );
 
-  const handleAdd = () => {
+  // UI triggers
+  const handleAddClick = () => {
     setEditing(null);
     setShowForm(true);
   };
-
-  const handleEdit = (emp) => {
+  const handleEditClick = (emp) => {
     setEditing(emp);
     setShowForm(true);
   };
 
+  // Async actions
   const handleDelete = async (id) => {
-    try {
-      await dispatch(deleteEmployee(id)).unwrap();
-      showMessage("Employee deleted successfully.", "success");
-    } catch {
-      showMessage("Failed to delete employee.", "error");
-    }
+    await dispatch(deleteEmployee(id)).unwrap();
+    dispatch(fetchEmployees()); // Refresh list after delete
   };
-
-  const handleFormSubmit = async (data) => {
-    try {
-      if (editing) {
-        await dispatch(updateEmployee({ ...editing, ...data })).unwrap();
-        showMessage("Employee updated successfully.", "success");
-      } else {
-        await dispatch(addEmployee(data)).unwrap();
-        showMessage("Employee added successfully.", "success");
-      }
-      setShowForm(false);
-      setEditing(null);
-    } catch {
-      showMessage("Failed to save employee.", "error");
-    }
+  const handleEdit = async (data) => {
+    await dispatch(updateEmployee({ ...editing, ...data })).unwrap();
+    setEditing(null);
+    dispatch(fetchEmployees()); // Refresh list after update
+  };
+  const handleAdd = async (data) => {
+    await dispatch(addEmployee(data)).unwrap();
+    setShowForm(false);
+    dispatch(fetchEmployees()); // Refresh list after add
   };
 
   return (
@@ -71,7 +59,7 @@ function EmployeeList() {
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           />
-          <button className="employee-list-add-btn" onClick={handleAdd}>
+          <button className="employee-list-add-btn" onClick={handleAddClick}>
             Add Employee
           </button>
         </div>
@@ -79,7 +67,7 @@ function EmployeeList() {
       {showForm && (
         <EmployeeForm
           initialData={editing || undefined}
-          onSubmit={handleFormSubmit}
+          onSubmit={editing ? handleEdit : handleAdd}
           onCancel={() => { setShowForm(false); setEditing(null); }}
         />
       )}
@@ -96,16 +84,16 @@ function EmployeeList() {
           </thead>
           <tbody>
             {filteredEmployees.map((emp) => (
-              <tr key={emp.id}>
+              <tr key={emp._id || emp.id}>
                 <td>{emp.name}</td>
                 <td>{emp.email}</td>
                 <td>{emp.phone}</td>
                 <td>{emp.department}</td>
                 <td>
-                  <button className="employee-list-edit-btn" onClick={() => handleEdit(emp)}>
+                  <button className="employee-list-edit-btn" onClick={() => handleEditClick(emp)}>
                     Edit
                   </button>
-                  <button className="employee-list-delete-btn" onClick={() => handleDelete(emp.id)}>
+                  <button className="employee-list-delete-btn" onClick={() => handleDelete(emp._id || emp.id)}>
                     Delete
                   </button>
                 </td>

@@ -1,11 +1,11 @@
-
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, NavLink } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EmployeeList from "./components/EmployeeList";
 import EmployeeForm from "./components/EmployeeForm";
+import Dashboard from "./components/Dashboard";
 
 function AppRouter() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(!!localStorage.getItem("token"));
@@ -17,16 +17,23 @@ function AppRouter() {
     window.location.href = "/login";
   };
 
+  // Only show navbar links if logged in and not on login/register page
+  const showNavLinks = isLoggedIn && !["/login", "/register"].includes(location.pathname);
+
   return (
     <div className="app-bg">
       {/* Navbar */}
       <nav className="navbar">
         <div className="navbar-content">
           <span className="navbar-title">Employee Directory</span>
-          {isLoggedIn && (
-            <button className="employee-form-cancel" onClick={handleLogout}>
-              Logout
-            </button>
+          {showNavLinks && (
+            <div className="navbar-links">
+              <NavLink to="/" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"} end>Dashboard</NavLink>
+              <NavLink to="/employees" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Employees</NavLink>
+              <button className="employee-form-cancel" onClick={handleLogout} style={{ marginLeft: '1rem' }}>
+                Logout
+              </button>
+            </div>
           )}
         </div>
       </nav>
@@ -37,6 +44,14 @@ function AppRouter() {
           <Route path="/register" element={<RegisterForm onRegister={() => window.location.href = '/login'} />} />
           <Route
             path="/"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/employees"
             element={
               <ProtectedRoute>
                 <EmployeeList />
