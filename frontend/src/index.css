@@ -1,3 +1,302 @@
+/* Post Reply UI */
+.post-reply-section {
+	margin-top: 1.2rem;
+	background: #f1f5f9;
+	border-radius: 8px;
+	padding: 1rem 1.2rem 0.5rem 1.2rem;
+}
+.post-reply-btn {
+	background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 0.4rem 1.1rem;
+	font-size: 0.98rem;
+	font-weight: 600;
+	cursor: pointer;
+	margin-bottom: 0.7rem;
+	margin-right: 0.7rem;
+	transition: background 0.2s, box-shadow 0.2s;
+	box-shadow: 0 2px 8px #2563eb22;
+}
+.post-reply-btn:hover {
+	background: #1e40af;
+}
+.post-reply-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin-bottom: 1rem;
+}
+.post-reply-form textarea {
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	padding: 0.6rem 1rem;
+	font-size: 1rem;
+	font-family: inherit;
+	background: #fff;
+	min-height: 48px;
+	resize: vertical;
+}
+.post-reply-form button[type="submit"] {
+	background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 0.4rem 1.1rem;
+	font-size: 0.98rem;
+	font-weight: 600;
+	cursor: pointer;
+	align-self: flex-end;
+	margin-top: 0.2rem;
+	transition: background 0.2s, box-shadow 0.2s;
+	box-shadow: 0 2px 8px #2563eb22;
+}
+.post-reply-form button[type="submit"]:hover {
+	background: #1e40af;
+}
+.post-reply-list {
+	margin-top: 0.7rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+.post-reply-title {
+	font-size: 1.05rem;
+	font-weight: 600;
+	color: #2563eb;
+	margin-bottom: 0.2rem;
+}
+.post-reply-item {
+	background: #fff;
+	border-radius: 6px;
+	padding: 0.5rem 0.9rem;
+	font-size: 1rem;
+	color: #22223b;
+	box-shadow: 0 1px 4px #2563eb11;
+	margin-bottom: 0.2rem;
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+}
+.post-reply-own {
+	background: #e0e7ff;
+	color: #2563eb;
+	font-weight: 600;
+}
+.post-reply-author {
+	font-weight: 700;
+	color: #2563eb;
+	margin-right: 0.5em;
+}
+.post-reply-hr {
+	background: #fff;
+	color: #2563eb;
+	border: 1px solid #2563eb;
+	margin-left: auto;
+	font-size: 0.95rem;
+	font-weight: 600;
+	box-shadow: none;
+}
+.post-reply-hr:hover {
+	background: #2563eb;
+	color: #fff;
+}
+/* Profile Card Modern UI */
+.refined-profile-card {
+	background: linear-gradient(120deg, #fff 60%, #e0e7ff 100%);
+	border-radius: 18px;
+	box-shadow: 0 4px 24px #2563eb11;
+	padding: 2.5rem 2rem 2rem 2rem;
+	max-width: 480px;
+	margin: 2.5rem auto 2rem auto;
+}
+.profile-header {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	margin-bottom: 2rem;
+}
+.profile-avatar {
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #2563eb 60%, #60a5fa 100%);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 2.5rem;
+	font-weight: 700;
+	box-shadow: 0 2px 12px #2563eb22;
+}
+.profile-info h2 {
+	margin: 0 0 0.2rem 0;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #2563eb;
+}
+.profile-role {
+	font-size: 1.05rem;
+	color: #64748b;
+	font-weight: 600;
+	letter-spacing: 1px;
+}
+.profile-form {
+	background: #f8fafc;
+	border-radius: 10px;
+	box-shadow: 0 2px 8px #2563eb0a;
+	padding: 1.2rem 1.2rem 1rem 1.2rem;
+	margin-bottom: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+.profile-section-title {
+	font-size: 1.08rem;
+	font-weight: 600;
+	color: #2563eb;
+	margin-bottom: 0.2rem;
+}
+.profile-input, .profile-textarea {
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	padding: 0.7rem 1rem;
+	font-size: 1rem;
+	font-family: inherit;
+	background: #f1f5f9;
+	transition: border 0.2s;
+}
+.profile-input:focus, .profile-textarea:focus {
+	border: 1.5px solid #2563eb;
+	outline: none;
+}
+.profile-textarea {
+	min-height: 60px;
+	resize: vertical;
+}
+.profile-btn {
+	background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 0.7rem 1.5rem;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	margin-top: 0.5rem;
+	transition: background 0.2s, box-shadow 0.2s;
+	box-shadow: 0 2px 8px #2563eb22;
+}
+.profile-btn:hover {
+	background: #1e40af;
+}
+.profile-msg {
+	color: #22c55e;
+	margin-top: 0.5rem;
+	text-align: center;
+	font-weight: 600;
+}
+/* Post/Notice Board Styles */
+.post-board-bg {
+	background: #f8fafc;
+	border-radius: 14px;
+	box-shadow: 0 2px 16px #2563eb11;
+	padding: 2rem 1.5rem 2.5rem 1.5rem;
+	margin: 2rem auto;
+	max-width: 700px;
+}
+.post-form {
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 2px 8px #2563eb0a;
+	padding: 1.5rem 1.5rem 1rem 1.5rem;
+	margin-bottom: 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+.post-form h3 {
+	margin: 0 0 0.5rem 0;
+	color: #2563eb;
+	font-size: 1.2rem;
+	font-weight: 700;
+}
+.post-form input[type="text"],
+.post-form textarea {
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	padding: 0.7rem 1rem;
+	font-size: 1rem;
+	font-family: inherit;
+	background: #f1f5f9;
+	transition: border 0.2s;
+}
+.post-form input[type="text"]:focus,
+.post-form textarea:focus {
+	border: 1.5px solid #2563eb;
+	outline: none;
+}
+.post-form textarea {
+	min-height: 80px;
+	resize: vertical;
+}
+.post-form button[type="submit"] {
+	background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 0.7rem 1.5rem;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	margin-top: 0.5rem;
+	transition: background 0.2s, box-shadow 0.2s;
+	box-shadow: 0 2px 8px #2563eb22;
+}
+.post-form button[type="submit"]:hover {
+	background: #1e40af;
+}
+.post-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+.post-card {
+	background: linear-gradient(120deg, #fff 60%, #e0e7ff 100%);
+	border-radius: 12px;
+	box-shadow: 0 2px 12px #2563eb11;
+	padding: 1.2rem 1.5rem 1.2rem 1.5rem;
+	position: relative;
+	transition: box-shadow 0.2s, transform 0.2s;
+	border-left: 6px solid #2563eb;
+}
+.post-card:hover {
+	box-shadow: 0 8px 32px #2563eb22;
+	transform: translateY(-4px) scale(1.01);
+}
+.post-title {
+	font-size: 1.15rem;
+	font-weight: 700;
+	color: #2563eb;
+	margin-bottom: 0.3rem;
+}
+.post-meta {
+	font-size: 0.95rem;
+	color: #64748b;
+	margin-bottom: 0.7rem;
+}
+.post-content {
+	font-size: 1.08rem;
+	color: #22223b;
+	line-height: 1.6;
+}
+.post-empty {
+	color: #64748b;
+	text-align: center;
+	font-size: 1.1rem;
+	margin: 2rem 0;
+}
 body {
 		margin: 0;
 		min-width: 320px;
@@ -337,9 +636,10 @@ button:focus-visible {
   font-weight: 700;
   margin-bottom: 2rem;
   text-align: center;
-  background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+	background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 .dashboard-cards {

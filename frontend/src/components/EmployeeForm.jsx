@@ -10,6 +10,7 @@ const initialState = {
 function EmployeeForm({ initialData = initialState, onSubmit, onCancel }) {
   const [form, setForm] = useState(initialData);
   const [errors, setErrors] = useState({});
+  const role = localStorage.getItem("role");
 
   const validate = () => {
     const errs = {};
@@ -35,8 +36,11 @@ function EmployeeForm({ initialData = initialState, onSubmit, onCancel }) {
     }
   };
 
+  // Only allow submit if HR/Admin
+  const canEdit = role === "admin" || role === "hr";
+
   return (
-    <form className="employee-form" onSubmit={handleSubmit}>
+    <form className="employee-form" onSubmit={canEdit ? handleSubmit : e => e.preventDefault()}>
       <h3 className="employee-form-title">{initialData.id ? "Edit" : "Add"} Employee</h3>
       <div className="employee-form-group">
         <label>Name</label>
@@ -85,15 +89,18 @@ function EmployeeForm({ initialData = initialState, onSubmit, onCancel }) {
         {errors.department && <p className="employee-form-error">{errors.department}</p>}
       </div>
       <div className="employee-form-actions">
-        <button type="submit" className="employee-form-submit">
-          {initialData.id ? "Update" : "Add"}
-        </button>
+        {canEdit && (
+          <button type="submit" className="employee-form-submit">
+            {initialData.id ? "Update" : "Add"}
+          </button>
+        )}
         {onCancel && (
           <button type="button" className="employee-form-cancel" onClick={onCancel}>
             Cancel
           </button>
         )}
       </div>
+      {!canEdit && <div style={{ color: 'red', marginTop: 10 }}>You do not have permission to edit employees.</div>}
     </form>
   );
 }

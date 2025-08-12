@@ -5,21 +5,37 @@ import EmployeeForm from "./EmployeeForm";
 import { useUI } from "../context/UIContext";
 
 
+const ROLES = [
+  { value: 'employee', label: 'Employee' },
+  { value: 'hr', label: 'HR' }
+];
+
 function EmployeeList() {
   const dispatch = useDispatch();
   const { list: employees, status, error } = useSelector((state) => state.employees);
   const [filter, setFilter] = useState("");
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [empForm, setEmpForm] = useState({ name: '', email: '', phone: '', department: '', username: '', password: '', role: 'employee' });
   const { showMessage } = useUI();
-
-  useEffect(() => {
-    dispatch(fetchEmployees());
-  }, [dispatch]);
-
-  const filteredEmployees = employees.filter((emp) =>
+  // Filter: show all employees and HRs (and admins for admin view)
+  const role = localStorage.getItem("role");
+  let filteredEmployees = employees.filter((emp) =>
     emp.name.toLowerCase().includes(filter.toLowerCase())
   );
+  // Optionally, show admins for admin view
+  // if (role === "admin") filteredEmployees = employees;
+  // else filteredEmployees = employees.filter(emp => emp.role !== "admin");
+
+  useEffect(() => {
+    if (role === "admin" || role === "hr") {
+      dispatch(fetchEmployees());
+    }
+  }, [dispatch, role]);
+
+  if (role !== "admin" && role !== "hr") {
+    return <div style={{ color: 'red', textAlign: 'center', marginTop: '2rem' }}>Forbidden: You do not have access to this page.</div>;
+  }
 
   // UI triggers
   const handleAddClick = () => {
@@ -47,6 +63,17 @@ function EmployeeList() {
     dispatch(fetchEmployees()); // Refresh list after add
   };
 
+  const generateUsername = () => {
+    if (empForm.email) {
+      const uname = empForm.email.split('@')[0];
+      setEmpForm(f => ({ ...f, username: uname }));
+    }
+  };
+  const generatePassword = () => {
+    const temp = Math.random().toString(36).slice(-8);
+    setEmpForm(f => ({ ...f, password: temp }));
+  };
+
   return (
     <div className="employee-list-bg">
       <div className="employee-list-header">
@@ -59,17 +86,53 @@ function EmployeeList() {
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           />
-          <button className="employee-list-add-btn" onClick={handleAddClick}>
-            Add Employee
-          </button>
+          {(role === "admin" || role === "hr") && (
+            <button className="employee-list-add-btn" onClick={() => setShowForm(true)}>
+              Add Employee
+            </button>
+          )}
         </div>
       </div>
       {showForm && (
-        <EmployeeForm
-          initialData={editing || undefined}
-          onSubmit={editing ? handleEdit : handleAdd}
-          onCancel={() => { setShowForm(false); setEditing(null); }}
-        />
+        <form className="employee-form" onSubmit={async (e) => { e.preventDefault(); await handleAdd(empForm); setEmpForm({ name: '', email: '', phone: '', department: '', username: '', password: '', role: 'employee' }); setShowForm(false); }}>
+          <h3 className="employee-form-title">Add Employee</h3>
+          <div className="employee-form-group">
+            <label>Name</label>
+            <input type="text" value={empForm.name} onChange={e => setEmpForm(f => ({ ...f, name: e.target.value }))} required />
+          </div>
+          <div className="employee-form-group">
+            <label>Email</label>
+            <input type="email" value={empForm.email} onChange={e => setEmpForm(f => ({ ...f, email: e.target.value }))} onBlur={generateUsername} required />
+          </div>
+          <div className="employee-form-group">
+            <label>Phone</label>
+            <input type="text" value={empForm.phone} onChange={e => setEmpForm(f => ({ ...f, phone: e.target.value }))} required />
+          </div>
+          <div className="employee-form-group">
+            <label>Department</label>
+            <input type="text" value={empForm.department} onChange={e => setEmpForm(f => ({ ...f, department: e.target.value }))} required />
+          </div>
+          <div className="employee-form-group">
+            <label>Username</label>
+            <input type="text" value={empForm.username} onChange={e => setEmpForm(f => ({ ...f, username: e.target.value }))} required />
+            <button type="button" onClick={generateUsername} style={{ marginLeft: 8 }}>Auto</button>
+          </div>
+          <div className="employee-form-group">
+            <label>Temporary Password</label>
+            <input type="text" value={empForm.password} onChange={e => setEmpForm(f => ({ ...f, password: e.target.value }))} required />
+            <button type="button" onClick={generatePassword} style={{ marginLeft: 8 }}>Generate</button>
+          </div>
+          <div className="employee-form-group">
+            <label>Role</label>
+            <select value={empForm.role} onChange={e => setEmpForm(f => ({ ...f, role: e.target.value }))}>
+              {ROLES.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
+            </select>
+          </div>
+          <div className="employee-form-actions">
+            <button type="submit" className="employee-form-submit">Add</button>
+            <button type="button" className="employee-form-cancel" onClick={() => setShowForm(false)}>Cancel</button>
+          </div>
+        </form>
       )}
       <div className="employee-list-table-wrapper">
         <table className="employee-list-table">
@@ -93,9 +156,11 @@ function EmployeeList() {
                   <button className="employee-list-edit-btn" onClick={() => handleEditClick(emp)}>
                     Edit
                   </button>
-                  <button className="employee-list-delete-btn" onClick={() => handleDelete(emp._id || emp.id)}>
-                    Delete
-                  </button>
+                  {role === "admin" && (
+                    <button className="employee-list-delete-btn" onClick={() => handleDelete(emp._id || emp.id)}>
+                      Delete
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

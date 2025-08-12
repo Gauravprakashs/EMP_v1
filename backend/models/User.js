@@ -14,8 +14,24 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['admin', 'hr'],
+    enum: ['admin', 'hr', 'employee'],
     required: true,
+  },
+  about: {
+    type: String,
+    default: '',
+  },
+  cvUrl: {
+    type: String,
+    default: '',
+  },
+  resetToken: {
+    type: String,
+    default: '',
+  },
+  resetTokenExpiry: {
+    type: Date,
+    default: null,
   },
 });
 

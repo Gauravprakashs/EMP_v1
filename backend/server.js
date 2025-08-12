@@ -32,6 +32,9 @@ app.use((req, res, next) => {
 // Auth routes
 app.use('/auth', require('./routes/auth'));
 
+// AI text generation route
+app.use('/ai', require('./routes/ai'));
+
 // JWT middleware
 const jwt = require('jsonwebtoken');
 function authMiddleware(req, res, next) {

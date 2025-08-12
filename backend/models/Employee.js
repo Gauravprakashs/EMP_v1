@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const employeeSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: false,
+  },
   name: {
     type: String,
     required: [true, 'Name is required'],
@@ -22,6 +27,14 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Department is required'],
     trim: true,
+  },
+  about: {
+    type: String,
+    default: '',
+  },
+  cvUrl: {
+    type: String,
+    default: '',
   },
 });
 

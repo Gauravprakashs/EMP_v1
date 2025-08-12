@@ -6,18 +6,34 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import EmployeeList from "./components/EmployeeList";
 import EmployeeForm from "./components/EmployeeForm";
 import Dashboard from "./components/Dashboard";
+import PostBoard from "./components/PostBoard";
+import Profile from "./components/Profile";
+import HRManagement from "./components/HRManagement";
+
+function RoleProtectedRoute({ allowedRoles, children }) {
+  const role = localStorage.getItem("role");
+  if (!allowedRoles.includes(role)) {
+    return <div style={{ color: 'red', textAlign: 'center', marginTop: '2rem' }}>Forbidden: You do not have access to this page.</div>;
+  }
+  return children;
+}
 
 function AppRouter() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(!!localStorage.getItem("token"));
+  const [role, setRole] = React.useState(localStorage.getItem("role"));
   const location = useLocation();
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     setIsLoggedIn(false);
+    setRole(null);
     window.location.href = "/login";
   };
 
-  // Only show navbar links if logged in and not on login/register page
+  React.useEffect(() => {
+    setRole(localStorage.getItem("role"));
+  }, [isLoggedIn]);
+
   const showNavLinks = isLoggedIn && !["/login", "/register"].includes(location.pathname);
 
   return (
@@ -30,6 +46,8 @@ function AppRouter() {
             <div className="navbar-links">
               <NavLink to="/" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"} end>Dashboard</NavLink>
               <NavLink to="/employees" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Employees</NavLink>
+              <NavLink to="/post" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Post</NavLink>
+              <NavLink to="/profile" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>My Profile</NavLink>
               <button className="employee-form-cancel" onClick={handleLogout} style={{ marginLeft: '1rem' }}>
                 Logout
               </button>
@@ -42,38 +60,12 @@ function AppRouter() {
         <Routes>
           <Route path="/login" element={<LoginForm onLogin={() => setIsLoggedIn(true)} />} />
           <Route path="/register" element={<RegisterForm onRegister={() => window.location.href = '/login'} />} />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/employees"
-            element={
-              <ProtectedRoute>
-                <EmployeeList />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/employee/new"
-            element={
-              <ProtectedRoute>
-                <EmployeeForm />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/employee/:id"
-            element={
-              <ProtectedRoute>
-                <EmployeeForm />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/employees" element={<ProtectedRoute><RoleProtectedRoute allowedRoles={["admin", "hr"]}><EmployeeList /></RoleProtectedRoute></ProtectedRoute>} />
+          <Route path="/employee/new" element={<ProtectedRoute><RoleProtectedRoute allowedRoles={["admin", "hr"]}><EmployeeForm /></RoleProtectedRoute></ProtectedRoute>} />
+          <Route path="/employee/:id" element={<ProtectedRoute><RoleProtectedRoute allowedRoles={["admin", "hr"]}><EmployeeForm /></RoleProtectedRoute></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/post" element={<ProtectedRoute><PostBoard /></ProtectedRoute>} />
           <Route path="*" element={<Navigate to={isLoggedIn ? "/" : "/login"} />} />
         </Routes>
         {/* Register link on login page */}

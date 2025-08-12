@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchEmployees } from "../slices/employeeSlice";
 import PieChart from "./PieChart";
+import PostBoard from "./PostBoard";
 
 const PIE_COLORS = [
   "#2563eb", "#60a5fa", "#7b00ff", "#00c9ff", "#00ffb3", "#ffb347", "#ff6384"
@@ -10,6 +11,8 @@ const PIE_COLORS = [
 function Dashboard() {
   const dispatch = useDispatch();
   const employees = useSelector((state) => state.employees.list);
+  const role = localStorage.getItem("role");
+  const username = localStorage.getItem("username");
   const totalEmployees = employees.length;
   const byDepartment = employees.reduce((acc, emp) => {
     acc[emp.department] = (acc[emp.department] || 0) + 1;
@@ -18,8 +21,21 @@ function Dashboard() {
   const pieData = Object.entries(byDepartment).map(([label, value]) => ({ label, value }));
 
   useEffect(() => {
-    dispatch(fetchEmployees());
-  }, [dispatch]);
+    if (role === "admin" || role === "hr") {
+      dispatch(fetchEmployees());
+    }
+  }, [dispatch, role]);
+
+  if (role === "employee") {
+    return (
+      <div className="dashboard-bg refined-dashboard">
+        <h2 className="dashboard-title refined-title">Notices</h2>
+        <div style={{ margin: '2rem auto', maxWidth: 600 }}>
+          <PostBoard />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-bg refined-dashboard">
@@ -47,6 +63,10 @@ function Dashboard() {
             <p style={{ color: '#aaa', marginTop: '1rem' }}>No data</p>
           )}
         </div>
+      </div>
+      {/* Show posts/notice board below analytics for all roles */}
+      <div style={{ margin: '2rem auto', maxWidth: 600 }}>
+        <PostBoard />
       </div>
     </div>
   );
