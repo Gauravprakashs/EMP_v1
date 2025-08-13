@@ -3,14 +3,21 @@ pipeline {
   environment {
     MONGO_URI = credentials('mongo-uri')
     JWT_SECRET = credentials('jwt-secret')
-    OPENAI_API_KEY = credentials('openai-key')
+    // OPENAI_API_KEY = credentials('openai-key')
   }
   stages {
     stage('Clone Repo') {
       steps {
-        git 'https://github.com/<your-username>/<your-repo>.git'
+       git branch: 'main', url: 'https://github.com/Gauravprakashs/Employee_Directory.git'
+       sh 'echo CodeBase pulled'
+       sh 'pwd'
       }
     }
+    stage('Debug Workspace') {
+     steps {
+         sh 'ls -R'
+         }
+        }
     stage('Build Docker Images') {
       steps {
         sh 'docker build -t emp-frontend ./frontend'
@@ -21,8 +28,16 @@ pipeline {
       steps {
         sh 'docker stop emp-frontend || true && docker rm emp-frontend || true'
         sh 'docker stop emp-backend || true && docker rm emp-backend || true'
-        sh 'docker run -d --name emp-backend --env-file ./backend/.env -p 5000:5000 emp-backend'
-        sh 'docker run -d --name emp-frontend -p 80:80 emp-frontend'
+        // sh 'docker run -d --name emp-backend --env-file ./backend/.env -p 5000:5000 emp-backend'
+        sh '''
+             docker run -d --name emp-backend \
+             -e MONGO_URI=$MONGO_URI \
+            -e JWT_SECRET=$JWT_SECRET \
+            -e OPENAI_API_KEY=$OPENAI_API_KEY \
+             -p 5000:5000 emp-backend
+        '''
+
+        sh 'docker run -d --name emp-frontend -p 5173:80 emp-frontend'
       }
     }
   }

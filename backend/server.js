@@ -9,16 +9,19 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     // Allow any localhost port for development
+//     if (!origin || /^http:\/\/localhost:\d+$/.test(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true,
+// }));
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow any localhost port for development
-    if (!origin || /^http:\/\/localhost:\d+$/.test(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
+  origin:'*'
 }));
 app.use(morgan('dev'));
 
