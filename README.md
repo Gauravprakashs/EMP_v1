@@ -68,3 +68,11 @@ EMP_v1/
 - Make sure MongoDB is running and accessible.
 - The default backend port is 5000, frontend is 5173.
 - For production, set secure values in `.env` files and use a process manager for Node.js.
+
+## ScreenShots
+
+<img width="1849" height="885" alt="image" src="https://github.com/user-attachments/assets/1b4587f8-6cbd-45ca-bf5d-954a3fe2bf84" />
+<img width="1590" height="871" alt="image" src="https://github.com/user-attachments/assets/168ba99a-007f-4884-a0ff-56e8cf226ef4" />
+<img width="1661" height="846" alt="image" src="https://github.com/user-attachments/assets/2f7baa52-354e-4cbc-a9ed-e093dad2a86f" />
+
+
