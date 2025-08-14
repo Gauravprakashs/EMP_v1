@@ -1,44 +1,45 @@
 pipeline {
-  agent any
-  environment {
-    MONGO_URI = credentials('mongo-uri')
-    JWT_SECRET = credentials('jwt-secret')
-    // OPENAI_API_KEY = credentials('openai-key')
-  }
-  stages {
-    stage('Clone Repo') {
-      steps {
-       git branch: 'main', url: 'https://github.com/Gauravprakashs/Employee_Directory.git'
-       sh 'echo CodeBase pulled'
-       sh 'pwd'
-      }
-    }
-    stage('Debug Workspace') {
-     steps {
-         sh 'ls -R'
-         }
-        }
-    stage('Build Docker Images') {
-      steps {
-        sh 'docker build -t emp-frontend ./frontend'
-        sh 'docker build -t emp-backend ./backend'
-      }
-    }
-    stage('Run Containers') {
-      steps {
-        sh 'docker stop emp-frontend || true && docker rm emp-frontend || true'
-        sh 'docker stop emp-backend || true && docker rm emp-backend || true'
-        // sh 'docker run -d --name emp-backend --env-file ./backend/.env -p 5000:5000 emp-backend'
-        sh '''
-             docker run -d --name emp-backend \
-             -e MONGO_URI=$MONGO_URI \
-            -e JWT_SECRET=$JWT_SECRET \
-            -e OPENAI_API_KEY=$OPENAI_API_KEY \
-             -p 5000:5000 emp-backend
-        '''
+    agent any
 
-        sh 'docker run -d --name emp-frontend -p 5173:80 emp-frontend'
-      }
+    environment {
+        // Injected from Jenkins credentials
+        MONGO_URI   = credentials('mongo-uri-id')       // MongoDB Atlas URI
+        JWT_SECRET  = credentials('jwt-secret-id')       // JWT secret
+        PORT        = credentials('backend-port-id')     // Backend port (e.g., 5000)
     }
-  }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git url: 'https://github.com/your/repo.git', branch: 'main'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("mern-app:${env.BUILD_ID}")
+                }
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                script {
+                    dockerImage.run(
+                        "-p ${PORT}:${PORT} " +
+                        "-e MONGO_URI=${MONGO_URI} " +
+                        "-e JWT_SECRET=${JWT_SECRET} " +
+                        "-e PORT=${PORT}"
+                    )
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline completed.'
+        }
+    }
 }
