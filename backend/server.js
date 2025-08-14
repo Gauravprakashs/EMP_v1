@@ -76,3 +76,14 @@ mongoose.connect(process.env.MONGO_URI, {
     console.error('MongoDB connection error:', err);
     process.exit(1);
   });
+
+
+  const path = require('path');
+
+// Serve static files from the frontend build
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Fallback route for React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
