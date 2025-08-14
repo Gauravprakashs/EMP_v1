@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const ROLES = [
   { value: 'employee', label: 'Employee' },
@@ -25,7 +26,7 @@ function HRManagement() {
     e.preventDefault();
     setMsg('');
     const token = localStorage.getItem('token');
-    const res = await fetch('http://localhost:5000/auth/create-hr', {
+    const res = await fetch(`${API_URL}/auth/create-hr`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify(form),

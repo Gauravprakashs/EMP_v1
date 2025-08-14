@@ -2,11 +2,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Async thunks for CRUD operations (API integration placeholder)
 
-const API_URL = 'http://localhost:5000/employees';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/employees';
 
 export const fetchEmployees = createAsyncThunk('employees/fetch', async () => {
   const token = localStorage.getItem('token');
-  const res = await fetch(API_URL, {
+  const res = await fetch(`${API_URL}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!res.ok) throw new Error('Failed to fetch employees');
@@ -16,7 +16,7 @@ export const fetchEmployees = createAsyncThunk('employees/fetch', async () => {
 
 export const addEmployee = createAsyncThunk('employees/add', async (employee) => {
   const token = localStorage.getItem('token');
-  const res = await fetch(API_URL, {
+  const res = await fetch(`${API_URL}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
