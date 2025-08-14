@@ -13,6 +13,7 @@ function Profile() {
       const token = localStorage.getItem('token');
       const res = await fetch(`${API_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include', 
       });
       const data = await res.json();
       setProfile(data);
@@ -28,6 +29,7 @@ function Profile() {
     const res = await fetch('http://localhost:5000/auth/me', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      credentials: 'include', 
       body: JSON.stringify(form),
     });
     const data = await res.json();

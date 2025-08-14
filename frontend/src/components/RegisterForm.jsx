@@ -17,6 +17,7 @@ function RegisterForm({ onRegister }) {
       const res = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include', 
         body: JSON.stringify({ username, password, role }),
       });
       const data = await res.json();

@@ -29,6 +29,7 @@ function HRManagement() {
     const res = await fetch(`${API_URL}/auth/create-hr`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      credentials: 'include', 
       body: JSON.stringify(form),
     });
     const data = await res.json();
