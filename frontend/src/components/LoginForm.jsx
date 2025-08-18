@@ -32,8 +32,9 @@ function LoginForm({ onLogin }) {
     <form className="employee-form" onSubmit={handleSubmit}>
       <h3 className="employee-form-title">Login</h3>
       <div className="employee-form-group">
-        <label>Username</label>
+        <label htmlFor="login-username">Username</label>
         <input
+          id="login-username"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -42,8 +43,9 @@ function LoginForm({ onLogin }) {
         />
       </div>
       <div className="employee-form-group">
-        <label>Password</label>
+        <label htmlFor="login-password">Password</label>
         <input
+          id="login-password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

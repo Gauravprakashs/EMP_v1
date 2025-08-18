@@ -14,7 +14,7 @@ function Profile() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      setProfile(data);
+      setProfile(data); 
       setForm({ about: data.about || '', cvUrl: data.cvUrl || '' });
     };
     fetchProfile();

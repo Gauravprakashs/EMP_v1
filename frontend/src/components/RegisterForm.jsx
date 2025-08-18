@@ -32,8 +32,9 @@ function RegisterForm({ onRegister }) {
     <form className="employee-form" onSubmit={handleSubmit}>
       <h3 className="employee-form-title">Register</h3>
       <div className="employee-form-group">
-        <label>Username</label>
+        <label htmlFor="register-username">Username</label>
         <input
+          id="register-username"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -42,8 +43,9 @@ function RegisterForm({ onRegister }) {
         />
       </div>
       <div className="employee-form-group">
-        <label>Password</label>
+        <label htmlFor="register-password">Password</label>
         <input
+          id="register-password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -52,8 +54,9 @@ function RegisterForm({ onRegister }) {
         />
       </div>
       <div className="employee-form-group">
-        <label>Role</label>
+        <label htmlFor="register-role">Role</label>
         <select
+          id="register-role"
           value={role}
           onChange={(e) => setRole(e.target.value)}
           className="employee-form-input"
